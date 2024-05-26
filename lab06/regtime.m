@@ -2,7 +2,7 @@ function[kpi] = regtime(in)
 
 assignin("base","Kp",in(1));
 assignin("base","Ki",in(2));
-out = sim("zad62.slx");
+out = sim("zad61_22a.slx");
 y = out.y(end);
 eabs = abs(out.y - out.y(end));
 absyinf = abs(out.y(end));

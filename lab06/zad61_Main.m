@@ -4,7 +4,7 @@ Kp_set = [0.1 0.2 0.3 0.4 0.5 1 2 5 10 50];
 for i = 1:length(Kp_set)
     Kp = Kp_set(i);
     assignin("base","Kp",Kp);
-    out = sim("zad61.slx");
+    out = sim("zad61_22a.slx");
     ISET(i) = out.ISET(end);
     ISE(i) = out.ISE(end);
     overshoot(i) = max(out.y) - out.y(end);
