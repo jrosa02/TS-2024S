@@ -24,6 +24,13 @@ Ki = 5;
 out = sim("zad62pendulum_22a.slx");
 
 figure
+plot(out.tout, out.LQRy)
+title('Odpowiedź układu sterowanego przez LQR');
+xlabel('t_{out}(s)');
+ylabel('y');
+grid on;
+
+figure
 plot(out.tout, out.y)
 title('Odpowiedź układu z regulatorem z nastawami początkowymi');
 xlabel('t_{out}(s)');
@@ -31,7 +38,7 @@ ylabel('y');
 grid on;
 
 options = optimoptions('fmincon', 'OutputFcn', @outfun, 'Display', 'iter');
-[zeta,fval]=fmincon(@ISE62p,[Kp Ki],[],[],[],[],[0, 0],[200 20], [], options);
+[zeta,fval]=fmincon(@custom62p,[Kp Ki],[],[],[],[],[0, 0],[200 20], [], options);
 regtime(zeta)
 Kp = zeta(1)
 Ki = zeta(2)
