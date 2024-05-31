@@ -18,7 +18,7 @@ K = lqr(A,B,Q,R);
 N_xu = pinv([A B; C 0])*[0; 0; 1];
 N_bar = N_xu(end)+K*N_xu(1:(end-1));
 
-Kp = 5;
+Kp = 200;
 Ki_max = c/(m*l)*(Kp-g/l);
 Ki = 5;
 out = sim("zad62pendulum_22a.slx");
@@ -31,10 +31,10 @@ ylabel('y');
 grid on;
 
 options = optimoptions('fmincon', 'OutputFcn', @outfun, 'Display', 'iter');
-[zeta,fval]=fmincon(@ISE62p,[Kp Ki],[],[],[],[],[0, 0],[200 20], [], options);
+[zeta,fval]=fmincon(@ISE62p,[150 10],[],[],[],[],[Kp Ki],[200 20], [], options);
 regtime(zeta)
-Kp = zeta(1)
-Ki = zeta(2)
+Kp = zeta(1);
+Ki = zeta(2);
 
 out = sim("zad62pendulum_22a.slx");
 
@@ -65,8 +65,6 @@ function stop = outfun(x, optimValues, state)
         case 'iter'
             history = [history; optimValues.iteration, optimValues.fval];
             plot(history(:,1), log10(history(:,2)), 'b-o');
-            text(optimValues.iteration, log10(optimValues.fval), sprintf('(K_p=%0.2f, K_I=%0.2f)', x(1), x(2)), ...
-                'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right', 'Rotation', 270);
             drawnow;
         case 'done'
             hold off
